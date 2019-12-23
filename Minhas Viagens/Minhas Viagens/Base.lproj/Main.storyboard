@@ -34,7 +34,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ev8-id-yej">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="cGw-Fw-0PE" kind="show" id="CL4-uC-bzu"/>
+                                <segue destination="cGw-Fw-0PE" kind="show" identifier="detail" id="CL4-uC-bzu"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

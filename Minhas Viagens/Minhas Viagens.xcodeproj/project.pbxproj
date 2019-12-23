@@ -14,6 +14,7 @@
 		61FBD11223B119BF00E9F3BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61FBD11123B119BF00E9F3BB /* Assets.xcassets */; };
 		61FBD11523B119BF00E9F3BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61FBD11323B119BF00E9F3BB /* LaunchScreen.storyboard */; };
 		61FBD11D23B1214400E9F3BB /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FBD11C23B1214400E9F3BB /* LocationTableViewController.swift */; };
+		61FBD11F23B13A7800E9F3BB /* TravelUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FBD11E23B13A7800E9F3BB /* TravelUserDefaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		61FBD11423B119BF00E9F3BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		61FBD11623B119BF00E9F3BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		61FBD11C23B1214400E9F3BB /* LocationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
+		61FBD11E23B13A7800E9F3BB /* TravelUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelUserDefaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				61FBD10823B119BE00E9F3BB /* AppDelegate.swift */,
 				61FBD10A23B119BE00E9F3BB /* SceneDelegate.swift */,
 				61FBD10C23B119BE00E9F3BB /* ViewController.swift */,
+				61FBD11E23B13A7800E9F3BB /* TravelUserDefaults.swift */,
 				61FBD10E23B119BE00E9F3BB /* Main.storyboard */,
 				61FBD11C23B1214400E9F3BB /* LocationTableViewController.swift */,
 				61FBD11123B119BF00E9F3BB /* Assets.xcassets */,
@@ -145,6 +148,7 @@
 				61FBD10D23B119BE00E9F3BB /* ViewController.swift in Sources */,
 				61FBD10923B119BE00E9F3BB /* AppDelegate.swift in Sources */,
 				61FBD10B23B119BE00E9F3BB /* SceneDelegate.swift in Sources */,
+				61FBD11F23B13A7800E9F3BB /* TravelUserDefaults.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

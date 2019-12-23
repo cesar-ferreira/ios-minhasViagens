@@ -10,10 +10,25 @@ import UIKit
 
 class LocationTableViewController: UITableViewController {
 
-    var listTravels: [String] = ["Teste", "TESTE 2"]
+    var listTravels: [Dictionary<String, String>] = []
+    var travelManager: TravelUserDefaults?
+    var navigationControllerPage = "add"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        travelManager = TravelUserDefaults()
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        navigationControllerPage = "add"
+        updateList()
+    }
+    
+    private func updateList() {
+        listTravels = travelManager?.list() ?? []
+        tableView.reloadData()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -29,7 +44,7 @@ class LocationTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let travel = listTravels[indexPath.row]
+        let travel = listTravels[indexPath.row]["local"]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "item_travel", for: indexPath)
         
@@ -38,6 +53,40 @@ class LocationTableViewController: UITableViewController {
         // Configure the cell...
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if ( editingStyle == UITableViewCell.EditingStyle.delete ) {
+            
+            travelManager?.remove(index: indexPath.row)
+            updateList()
+            
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.navigationControllerPage = "detail"
+        performSegue(withIdentifier: "detail", sender: indexPath.row)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "detail") {
+            let viewControllerDestino = segue.destination as! ViewController
+            
+            if (self.navigationControllerPage == "detail") {
+                if let getIndex = sender {
+                    
+                    let index = getIndex as! Int
+                    viewControllerDestino.travel = listTravels[ index ]
+                    viewControllerDestino.indexSelected = index
+                    
+                }
+            } else {
+                viewControllerDestino.travel = [:]
+                viewControllerDestino.indexSelected = -1
+            }
+        }
     }
     
 

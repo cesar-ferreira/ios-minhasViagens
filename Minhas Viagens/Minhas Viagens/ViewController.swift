@@ -15,11 +15,21 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     var locationManager = CLLocationManager()
     
+    var travel: Dictionary<String, String> = [:]
+    var indexSelected: Int!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        setupLocationManager()
+        if let index = indexSelected {
+            if (index == -1) {
+                setupLocationManager()
+            } else {
+                displayNote( travel: travel )
+            }
+        }
+        
         
         gestureDetection()
     }
@@ -33,7 +43,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     private func gestureDetection() {
         let gestureRecognize = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.market(gesture:)))
-        gestureRecognize.minimumPressDuration = 2
+        gestureRecognize.minimumPressDuration = 1
         
         map.addGestureRecognizer(gestureRecognize)
     }
@@ -42,20 +52,36 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         if (gesture.state == UIGestureRecognizer.State.began) {
             let pointSelected = gesture.location(in: self.map)
-            let coord = map.convert(pointSelected, toCoordinateFrom: self.ma)
+            let coord = map.convert(pointSelected, toCoordinateFrom: self.map)
             
-            let note = MKPointAnnotation()
-            
-            note.coordinate.latitude = coord.latitude
-            note.coordinate.longitude = coord.longitude
-            
-            note.title = "Pressionei aqui"
-            note.subtitle = "Estou aqui"
-            
-            map.addAnnotation(note)
-        }
         
-        print ("pressionado")
+            var localCompleto = ""
+            let location = CLLocation(latitude: coord.latitude, longitude: coord.longitude)
+            CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (local, error) in
+                
+                if (error == nil) {
+                    if let dataLocal = local?.first {
+                        if let name = dataLocal.name {
+                            localCompleto = name
+                        } else {
+                            if let endereco = dataLocal.thoroughfare {
+                                localCompleto = endereco
+                            }
+                        }
+                    }
+                    
+                    
+                    self.travel = ["local": localCompleto, "latitude": String(coord.latitude), "longitude": String(coord.longitude) ]
+                    TravelUserDefaults().saveTravel(travel: self.travel)
+                    
+                    self.displayNote(travel: self.travel)
+                    
+                } else {
+                    print (error)
+                }
+                
+            })
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -82,7 +108,48 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
     }
     
-
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let local = locations.last!
+        
+        let deltaLat: CLLocationDegrees = 0.05
+        let deltaLog: CLLocationDegrees = 0.05
+        
+        let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(local.coordinate.latitude, local.coordinate.longitude)
+        let area: MKCoordinateSpan = MKCoordinateSpan.init(latitudeDelta: deltaLat, longitudeDelta: deltaLog)
+        let region: MKCoordinateRegion = MKCoordinateRegion.init(center: location, span: area)
+        map.setRegion(region, animated: true)
+    }
+    
+    private func displayNote(travel: Dictionary<String, String>) {
+        
+        if let localTravel = travel["local"] {
+            if let latitudeString = travel["latitude"] {
+                if let longitudeString = travel["longitude"] {
+                    if let latitude = Double(latitudeString) {
+                        if let longitude = Double(longitudeString) {
+                            
+                            let note = MKPointAnnotation()
+                            
+                            note.coordinate.latitude = latitude
+                            note.coordinate.longitude = longitude
+                            
+                            note.title = localTravel
+                            
+                            self.map.addAnnotation(note)
+                            
+                            let deltaLat: CLLocationDegrees = 0.05
+                            let deltaLog: CLLocationDegrees = 0.05
+                            
+                            let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+                            let area: MKCoordinateSpan = MKCoordinateSpan.init(latitudeDelta: deltaLat, longitudeDelta: deltaLog)
+                            let region: MKCoordinateRegion = MKCoordinateRegion.init(center: location, span: area)
+                            map.setRegion(region, animated: true)
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }
 
