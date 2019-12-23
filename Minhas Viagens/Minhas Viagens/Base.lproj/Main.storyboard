@@ -50,14 +50,28 @@
                     <view key="view" contentMode="scaleToFill" id="0ln-aQ-l7P">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="x8V-sh-PGY">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="x8V-sh-PGY" firstAttribute="leading" secondItem="EMP-uK-k5s" secondAttribute="leading" id="7ry-P3-bVj"/>
+                            <constraint firstItem="x8V-sh-PGY" firstAttribute="top" secondItem="EMP-uK-k5s" secondAttribute="top" id="Qh8-iB-Mip"/>
+                            <constraint firstItem="x8V-sh-PGY" firstAttribute="bottom" secondItem="EMP-uK-k5s" secondAttribute="bottom" id="ptP-8d-HK5"/>
+                            <constraint firstItem="x8V-sh-PGY" firstAttribute="trailing" secondItem="EMP-uK-k5s" secondAttribute="trailing" id="qKo-LN-NX8"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="EMP-uK-k5s"/>
                     </view>
                     <navigationItem key="navigationItem" title="Mapa" id="mgo-on-Hgc"/>
+                    <connections>
+                        <outlet property="map" destination="x8V-sh-PGY" id="Cma-js-C3Q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2T4-C5-tMR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1296" y="163"/>
+            <point key="canvasLocation" x="1295.6521739130435" y="162.72321428571428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8ZH-PF-3Nq">
