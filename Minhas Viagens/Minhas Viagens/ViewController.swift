@@ -20,6 +20,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         // Do any additional setup after loading the view.
         
         setupLocationManager()
+        
+        gestureDetection()
     }
     
     private func setupLocationManager() {
@@ -27,6 +29,33 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+    }
+    
+    private func gestureDetection() {
+        let gestureRecognize = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.market(gesture:)))
+        gestureRecognize.minimumPressDuration = 2
+        
+        map.addGestureRecognizer(gestureRecognize)
+    }
+    
+    @objc func market(gesture: UIGestureRecognizer) {
+        
+        if (gesture.state == UIGestureRecognizer.State.began) {
+            let pointSelected = gesture.location(in: self.map)
+            let coord = map.convert(pointSelected, toCoordinateFrom: self.ma)
+            
+            let note = MKPointAnnotation()
+            
+            note.coordinate.latitude = coord.latitude
+            note.coordinate.longitude = coord.longitude
+            
+            note.title = "Pressionei aqui"
+            note.subtitle = "Estou aqui"
+            
+            map.addAnnotation(note)
+        }
+        
+        print ("pressionado")
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
